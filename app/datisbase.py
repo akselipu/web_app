@@ -4,7 +4,7 @@ from app import app
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql:///postgres"#"postgresql://leopuustinen:aksu@localhost:5432/postgres"
+app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql:///postgres"
 app.config["DEBUG"] = True
 db = SQLAlchemy(app)
 
