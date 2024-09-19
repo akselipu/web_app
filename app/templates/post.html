@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+
+<h2>Comments:</h2>
+<ul>
+    {% for comment in comments %}
+    <li><strong>{{ comment[1] }}:</strong> {{ comment[0] }} ({{ comment[2] }})</li>
+    {% endfor %}
+</ul>
+
+{% if session.get('user_id') %}
+    <h3>Add a Comment:</h3>
+    <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post">
+        <textarea name="content" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+{% else %}
+    <p>You must be logged in to comment.</p>
+{% endif %}
+{% endblock %}

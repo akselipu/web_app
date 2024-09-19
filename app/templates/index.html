@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>Blog Posts</h1>
+
+  {% if session['user_id'] %}
+  <form action="/create_post" method="post">
+      <label for="title">Title:</label><br>
+      <input type="text" id="title" name="title" required><br><br>
+      
+      <label for="content">Content:</label><br>
+      <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+      
+      <input type="submit" value="Create Post">
+  </form>
+  {% endif %}
+
+  {% for post in posts %}
+    <div class="post">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+      <p><small>By: {{ post.author_id }} | {{ post.created_at }}</small></p>
+
+      <!-- Comments for the post -->
+      <div class="comments">
+        <h3>Comments:</h3>
+        <ul>
+          {% for comment in comments %}
+            {% if comment.post_id == post.id %}
+              <li>
+                <strong>{{ comment.name }}:</strong> {{ comment.content }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Form to add a new comment -->
+      {% if session['user_id'] %}
+        <form action="/add_comment/{{ post.id }}" method="POST">
+          <textarea name="content" placeholder="Write a comment"></textarea><br>
+          <input type="submit" value="Add Comment">
+        </form>
+      {% endif %}
+    </div>
+
+  {% endfor %}
+
+
+
+  {% if session.get("user_id") %}
+  <p>Welcome, {{ session["user_name"] }}!</p>
+  <a href="/logout">Logout</a>
+      <!-- Add a Delete Account Button -->
+  <form action="/delete_account" method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+    <input type="submit" value="Delete Account" style="color: red;">
+  </form>
+{% else %}
+  <a href="/login">Login</a>
+  <a href="/register">Register</a>
+
+{% endif %}
+
+
+
+{% endblock %}

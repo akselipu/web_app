@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Delete User</h2>
+
+<form action="/delete_user" method="post">
+    Username: <input type="text" name="username" required><br>
+    <input type="submit" value="Delete User">
+</form>
+
+{% endblock %}
