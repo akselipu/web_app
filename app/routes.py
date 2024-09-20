@@ -79,44 +79,6 @@ def logout():
     users.logout()
     return redirect("/")
 
-@app.route("/test_db")
-def test_db():
-    
-    # Use the text() function to wrap the raw SQL query
-    sql = text("INSERT INTO users (name, password) VALUES (:name, :password)")
-    params = {"name": "aksu", "password": "test"}
-    db.session.execute(sql, params)
-    db.session.commit()
-
-
-@app.route("/add_user", methods=['GET', 'POST'])
-def add_user_route():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        password = request.form.get('password')
-        
-        # Call the add_user function to insert the user into the database
-        result = users.add_user(name, password)
-        
-        if "Error" in result:
-            return render_template("error.html", message=result)
-        
-        return redirect("/")
-
-    return render_template("add_user.html")
-
-
-@app.route("/delete_user", methods=["GET", "POST"])
-def delete_user():
-    if request.method == "POST":
-        username = request.form["username"]
-        
-        if users.delete_user(username):
-            return render_template("delete_success.html", message=f"User {username} deleted successfully.")
-        else:
-            return render_template("error.html", message="Failed to delete the user.")
-    
-    return render_template("delete.html")
 
 @app.route("/delete_account", methods=["POST"])
 def delete_account():
@@ -142,7 +104,6 @@ def delete_account():
         delete_user = text("DELETE FROM users WHERE id = :user_id")
         db.session.execute(delete_user, {"user_id": user_id})
 
-        
 
         try:
             revoke_user = text("REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM "+user_name)
@@ -191,25 +152,6 @@ def create_post():
 
     # Render the post creation form
     return render_template("create_post.html")
-
-@app.route("/post/<int:post_id>/comment", methods=["POST"])
-def test_add_comment(post_id):
-    if not session.get("user_id"):
-        return redirect(url_for('login'))
-
-    content = request.form["content"]
-    
-    if not content:
-        return render_template("error.html", message="Comment cannot be empty")
-    
-    try:
-        sql = text("INSERT INTO comments (content, post_id, author_id, created_at) VALUES (:content, :post_id, :author_id, NOW())")
-        db.session.execute(sql, {"content": content, "post_id": post_id, "author_id": session["user_id"]})
-        db.session.commit()
-    except Exception as e:
-        return render_template("error.html", message=f"Failed to add comment: {str(e)}")
-
-    return redirect(url_for('post_detail', post_id=post_id))
 
 @app.route("/post/<int:post_id>", methods=["GET"])
 def post_detail(post_id):
