@@ -1,25 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<h2>Rekisteröinti</h2>
-
-<form action="/register" method="post">
-Tunnus: <br><input type="text" name="username" minlength="1" maxlength="20">
-<p>
-Salasana: <br><input type="password" name="password1">
-<p>
-Salasana uudestaan: <br><input type="password" name="password2">
-<p>
-Käyttäjärooli:
-<select name="role">
-<option value=1> oppilas
-<option value=2> opettaja
-</select>
-<p>
-<input type="submit" value="Luo tunnus">
+<h2>Register</h2>
+<form action="/register" method="post" class="mt-4">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" minlength="1" maxlength="20" required>
+    </div>
+    <div class="mb-3">
+        <label for="password1" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password1" required>
+    </div>
+    <div class="mb-3">
+        <label for="password2" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" name="password2" required>
+    </div>
+    <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <select class="form-select" name="role" required>
+            <option value="1">Student</option>
+            <option value="2">Teacher</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Account</button>
 </form>
-
-<p>
-<a href="/login">Palaa takaisin</a>
-
 {% endblock %}

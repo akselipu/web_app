@@ -40,14 +40,14 @@ def register():
         # Check if username already exists
         existing_user = users.get_user_by_username(username)
         if existing_user:
-            return render_template("error.html", message="Käyttäjänimi on jo käytössä")
+            return render_template("error.html", message="Username already in use")
 
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
-            return render_template("error.html", message="Salasanat eroavat")
+            return render_template("error.html", message="Password mismatch!")
         if password1 == "":
-            return render_template("error.html", message="Salasana on tyhjä")
+            return render_template("error.html", message="Password empty")
 
         role = request.form["role"]
         
@@ -55,7 +55,7 @@ def register():
             return render_template("error.html", message="Tuntematon käyttäjärooli")
         
         if not users.register(username, password1, role):
-           return render_template("error.html", message="Rekisteröinti ei onnistunut")
+           return render_template("error.html", message="Registering unsuccessful")
         
         return redirect("/")
 
@@ -70,7 +70,7 @@ def login():
         
         
         if not users.login(username, password):
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            return render_template("error.html", message="Wrong username or password")
         
         return redirect("/")
 
@@ -180,3 +180,25 @@ def add_comment(post_id):
     db.session.commit()
 
     return redirect("/")
+
+@app.route("/edit_post/<int:post_id>", methods=["GET", "POST"])
+def edit_post(post_id):
+    # Fetch the post from the database
+    post = db.session.execute(text("SELECT * FROM posts WHERE id = :post_id"), {"post_id": post_id}).fetchone()
+
+    if not post:
+        return render_template("error.html", message="Post not found")
+
+    if request.method == "POST":
+        title = request.form["title"]
+        content = request.form["content"]
+
+        # Update the post in the database
+        sql = text("UPDATE posts SET title = :title, content = :content WHERE id = :post_id")
+        db.session.execute(sql, {"title": title, "content": content, "post_id": post_id})
+        db.session.commit()
+
+        return redirect("/")
+
+    # Render the form with the existing post data
+    return render_template("edit_post.html", post=post)

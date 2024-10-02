@@ -8,7 +8,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql:///postgres"
 app.config["DEBUG"] = True
 db = SQLAlchemy(app)
 
-class User(db.Model):
+"""class User(db.Model):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -26,3 +26,4 @@ class BlogPost(db.Model):
     content = db.Column(db.Text, nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+"""
