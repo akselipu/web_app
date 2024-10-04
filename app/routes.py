@@ -1,10 +1,10 @@
 from flask import render_template, url_for, flash, redirect, request
 from app import app
 from datisbase import db
-#from flask_login import login_user, current_user, logout_user, login_required
+
 from sqlalchemy.sql import text
 import users
-from users import login_required  # Assume you have a login_required decorator
+from users import login_required  
 
 from flask import render_template, request, redirect, session, url_for
 
@@ -121,9 +121,6 @@ def login():
 # Function to see posts in their respective categories
 @app.route("/posts/category/<int:category_id>")
 def posts_by_category(category_id):
-    # Fetch posts by the selected category
-    #posts_sql = text("SELECT p.*, u.name AS author_name, c.name AS category_name FROM posts p JOIN users u ON p.author_id = u.id JOIN categories c ON p.category_id = c.id WHERE p.category_id = :category_id ORDER BY p.created_at DESC")
-    
     posts_sql = text("""
         SELECT p.id, p.title, p.content, p.author_id, created_at, p.category_id, u.name AS author_name, c.name AS category_name 
         FROM posts p 
@@ -311,7 +308,7 @@ def add_comment(post_id):
     if category_id:
         return redirect(url_for('posts_by_category', category_id=category_id, _anchor=f"post-{post_id}"))
     
-    # Otherwise, redirect back to the homepage with the post anchor
+    # Otherwise, redirect back to the homepage
     return redirect(url_for('index', _anchor=f"post-{post_id}"))
 
 
