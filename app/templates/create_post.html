@@ -3,11 +3,29 @@
 
 <h2>Create a New Blog Post</h2>
 
-<form action="/create_post" method="post">
-    Title: <br><input type="text" name="title"><br><br>
-    Content: <br><textarea name="content" rows="10" cols="30"></textarea><br><br>
-    <input type="submit" value="Submit Post">
+<form method="POST" action="{{ url_for('create_post') }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    
+    <label for="title">Title:</label>
+    <input type="text" name="title" required>
+
+    <label for="content">Content:</label>
+    <textarea name="content" required></textarea>
+    
+    <label for="category">Category:</label>
+    <select name="category_id" required>
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="tags">Tags (comma-separated):</label>
+    <input type="text" name="tags">
+
+    <button type="submit">Create Post</button>
 </form>
+
+
 
 <a href="/">Back to home</a>
 

@@ -24,7 +24,7 @@ def add_user(name, password):
 
 
 def login(name, password):
-    sql = text("SELECT password, id, role FROM users WHERE name=:name")
+    sql = text("SELECT password, id FROM users WHERE name=:name")
     result = db.session.execute(sql, {"name": name})
     user = result.fetchone()
     
@@ -36,7 +36,7 @@ def login(name, password):
     
     session["user_id"] = user[1]
     session["user_name"] = name
-    session["user_role"] = user[2]
+    #session["user_role"] = user[2]
     session["csrf_token"] = os.urandom(16).hex()
     return True
 
@@ -52,15 +52,15 @@ def login_required(f):
 def logout():
     del session["user_id"]
     del session["user_name"]
-    del session["user_role"]
+    #del session["user_role"]
 
-def register(name, password, role):
+def register(name, password):
     hash_value = generate_password_hash(password)
     try:
         # Insert new user into the database
-        sql = "INSERT INTO users (name, password, role) VALUES (:name, :password, :role)"
-        logging.debug(f"SQL: {sql} | Params: {name}, {hash_value}, {role}")
-        db.session.execute(text(sql), {"name": name, "password": hash_value, "role": role})
+        sql = "INSERT INTO users (name, password) VALUES (:name, :password)"
+        logging.debug(f"SQL: {sql} | Params: {name}, {hash_value}")
+        db.session.execute(text(sql), {"name": name, "password": hash_value})
         db.session.commit()
 
         create_role_sql = text(f"CREATE ROLE {name} LOGIN PASSWORD '{password}'")
@@ -98,10 +98,10 @@ def delete_user(name):
 
 def user_id():
     return session.get("user_id", 0)
-
+"""
 def require_role(role):
     if role > session.get("user_role", 0):
-        abort(403)
+        abort(403)"""
 
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:

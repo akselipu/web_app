@@ -1,11 +1,10 @@
 from flask import Flask
 #from flask_sqlalchemy import SQLAlchemy
-from config import Config
+from os import getenv
 
 
 app = Flask(__name__)
-app.secret_key = "abc1234567890" 
-
+app.secret_key = getenv("SECRET_KEY")
 
 # Import your routes after initializing the app and db
 import routes
