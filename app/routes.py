@@ -154,7 +154,7 @@ def posts_by_category(category_id):
     post_tags = {}
     for tag in tags:
         post_id = tag[0]  # Adjust to access the correct index
-        tag_name = tag[1]  # Adjust to access the correct index
+        tag_name = tag[1]  
         if post_id not in post_tags:
             post_tags[post_id] = []
         post_tags[post_id].append(tag_name)
