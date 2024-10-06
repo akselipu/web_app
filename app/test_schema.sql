@@ -1,8 +1,8 @@
-INSERT INTO categories (name) VALUES ('Autot');
+INSERT INTO categories (name) VALUES ('Cars');
 INSERT INTO categories (name) VALUES ('Lifestyle');
-INSERT INTO categories (name) VALUES ('Matkustelu');
-INSERT INTO categories (name) VALUES ('Eläimet');
-INSERT INTO categories (name) VALUES ('Ruoka ja juoma');
+INSERT INTO categories (name) VALUES ('Travelling');
+INSERT INTO categories (name) VALUES ('Animals');
+INSERT INTO categories (name) VALUES ('Food & Drink');
 
 insert into users (name, password) values ('jari', 'scrypt:32768:8:1$BUltrl6SG5HtHgr0$7b68b698c11c64ed19228eced8cafc4d437c04ae9dd85ded673555acee228e7f9442b7271bea33c095efe36fd505ee8f934b7c0979c0a443379f9484448b1b3c');
 insert into users (name, password) values ('tiina', 'scrypt:32768:8:1$BUltrl6SG5HtHgr0$7b68b698c11c64ed19228eced8cafc4d437c04ae9dd85ded673555acee228e7f9442b7271bea33c095efe36fd505ee8f934b7c0979c0a443379f9484448b1b3c');
