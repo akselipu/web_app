@@ -4,7 +4,7 @@ Website where you can read and create your own blogs posts.
 
 ## Overview
 
-With this blog site you can read, write, edit and comment blog posts. It is for people who want to share their ideas and interests.
+With this blog site you can read, write, edit and comment blog posts. It is for people who want to share their ideas and interests. At the moment application is up and running but the layout is still a bit poor so it needs styling.
 
 ## Features
 
